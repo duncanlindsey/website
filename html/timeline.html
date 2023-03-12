@@ -4,34 +4,48 @@
         <link rel="stylesheet" href="../css/style.css">
     </head>
     <body>
-        <div id="timeline"></div>
+        <div class="page_proxy">
+            <div class="menu">
+                <ul>
+                    <li><a href="../index.html">ABOUT</a></li>
+                    <li><a href="html/projects.html">PROJECTS</a></li>
+                    <li class="active">TIMELINE</li>
+                </ul>
+            </div>
+            <div class="timeline"></div>
+            <script>
+                // Get a reference to the timeline element
+                var timeline = document.querySelector(".timeline");
 
-        <script>
-            // Get a reference to the timeline element
-            var timeline = document.getElementById("timeline");
+                // Get a list of all entries (or files) in a directory
+                var entries = [
+                    { date: "2022-02-01", title: "Entry 1", body: "Some text" },
+                    { date: "2022-02-15", title: "Entry 2", body: "Some text" },
+                    { date: "2022-03-05", title: "Entry 3", body: "Some text" },
+                    // ...
+                ];
 
-            // Get a list of all files in a directory
-            var filelist = ["file1.html", "file2.html", "file3.html", /*...*/];
+                // Loop through each entry and create an HTML element for it
+                for (var i = 0; i < entries.length; i++) {
+                    // Extract the date information from the entry
+                    var date = new Date(entries[i].date);
 
-            // Loop through each file and create an HTML entry for it
-            for (var i = 0; i < filelist.length; i++) {
-                // Create a new FileReader object
-                var reader = new FileReader();
+                    // Create a new entry element for this entry
+                    var entry = document.createElement("div");
+                    entry.classList.add("entry");
+                    entry.title = entries[i].title;
+                    entry.dataset.filepath = entries[i].filepath;
 
-                // Define a function to handle the file load event
-                reader.onload = function (event) {
-                // Create a new entry element for this file
-                var entry = document.createElement("div");
-                entry.classList.add("entry");
-                entry.innerHTML = event.target.result;
+                    // Calculate the position of the entry along the timeline
+                    var yearsSinceEpoch = date.getTime() / (1000 * 60 * 60 * 24 * 365.25);
+                    var timelineWidth = timeline.offsetWidth;
+                    var entryPosition = timelineWidth * (yearsSinceEpoch / 50);
+                    entry.style.left = entryPosition + "px";
 
-                // Add the entry element to the timeline
-                timeline.appendChild(entry);
-                };
-
-                // Read the contents of the file
-                reader.readAsText(filelist[i]);
-            }
-        </script>
+                    // Add the entry element to the timeline
+                    timeline.appendChild(entry);
+                }
+            </script>
+        </div>
   </body>
 </html>
