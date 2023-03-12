@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Dynamic Timeline</title>
+        <link rel="stylesheet" href="../css/style.css">
+    </head>
+    <body>
+        <div id="timeline"></div>
+
+        <script>
+            // Get a reference to the timeline element
+            var timeline = document.getElementById("timeline");
+
+            // Get a list of all files in a directory
+            var filelist = ["file1.html", "file2.html", "file3.html", /*...*/];
+
+            // Loop through each file and create an HTML entry for it
+            for (var i = 0; i < filelist.length; i++) {
+                // Create a new FileReader object
+                var reader = new FileReader();
+
+                // Define a function to handle the file load event
+                reader.onload = function (event) {
+                // Create a new entry element for this file
+                var entry = document.createElement("div");
+                entry.classList.add("entry");
+                entry.innerHTML = event.target.result;
+
+                // Add the entry element to the timeline
+                timeline.appendChild(entry);
+                };
+
+                // Read the contents of the file
+                reader.readAsText(filelist[i]);
+            }
+        </script>
+  </body>
+</html>
